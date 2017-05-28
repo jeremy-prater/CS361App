@@ -10,13 +10,26 @@ namespace MapAppTest
 {
     public partial class MainPage : ContentPage
     {
+        static MainPage mainPage = null;
+
         public MainPage()
         {
             InitializeComponent();
-            this.MyMap.MoveToRegion(
-                MapSpan.FromCenterAndRadius(
-                    new Position(37, -122), Distance.FromMiles(1)));
+            if (mainPage == null)
+            {
+                mainPage = this;
+            }
+            else
+            {
+                // How can this happen, and how does it get logged?
+                // syslog?
+                // local file/memory?
+            }
+        }
 
+        static public Map GetMap()
+        {
+            return mainPage.MyMap;
         }
     }
 }

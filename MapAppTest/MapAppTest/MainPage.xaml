@@ -6,7 +6,7 @@
              x:Class="MapAppTest.MainPage">
 
     <StackLayout VerticalOptions="StartAndExpand" Padding="30">
-            <maps:Map WidthRequest="320" HeightRequest="200"
+            <maps:Map WidthRequest="320" HeightRequest="500"
             x:Name="MyMap"
             IsShowingUser="true"
             MapType="Hybrid" />

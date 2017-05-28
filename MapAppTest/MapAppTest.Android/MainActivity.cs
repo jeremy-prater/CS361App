@@ -15,15 +15,23 @@ namespace MapAppTest.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
+            // UI Stuff
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
+            // Xamarin init
             base.OnCreate(bundle);
-
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.FormsMaps.Init(this, bundle);
 
+            // Launch!
             LoadApplication(new MapAppTest.App());
+
+            // Application Init Section
+            MappingEngine mappingEngine = new MappingEngine(MainPage.GetMap());
+
+            // Local program setup.
+            mappingEngine.SetMapLocation(21.353063, -158.132459, .8);
         }
     }
 }
