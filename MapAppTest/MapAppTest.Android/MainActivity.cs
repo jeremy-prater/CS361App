@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Xamarin.Forms.Maps;
+using Android.Graphics;
 
 namespace MapAppTest.Droid
 {
@@ -32,6 +33,7 @@ namespace MapAppTest.Droid
 
             // Local program setup.
             mappingEngine.SetMapLocation(21.353063, -158.132459, .8);
+            mappingEngine.AddMarker(21.353063, -158.132459, Color.Yellow);
         }
     }
 }

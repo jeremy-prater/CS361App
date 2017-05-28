@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms.Maps;
+﻿using Android.Graphics;
+using Xamarin.Forms.Maps;
 
 public class MappingEngine
 {
@@ -32,6 +33,11 @@ public class MappingEngine
             localMap.MoveToRegion(result);
         }
         return result;
+    }
+
+    public bool AddMarker(double lat, double log, Color color)
+    {
+        return true;
     }
 
     public double GetLatitudeDegrees()
