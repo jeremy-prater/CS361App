@@ -10,7 +10,7 @@ namespace UnitTestProject1
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestMapPositionSetting()
         {
             double testLat = 0;
             double testLong = 0;

@@ -10,6 +10,9 @@ public class MappingEngine
 
     public MappingEngine (Map newMap)
     {
+        // Oh no... I made it a singleton.
+        // Please use mutexes or other blocking calls
+        // to access critical map data.
         localMap = newMap;
     }
 
@@ -22,6 +25,8 @@ public class MappingEngine
         MapSpan result = MapSpan.FromCenterAndRadius(
                new Position(lat, log),
                Distance.FromMiles(radius));
+
+        // Preform null check
         if (localMap != null)
         {
             localMap.MoveToRegion(result);
