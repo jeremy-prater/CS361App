@@ -1,5 +1,5 @@
-﻿using Android.Graphics;
-using Xamarin.Forms.Maps;
+﻿using Xamarin.Forms.Maps;
+using Android.Graphics;
 
 public class MappingEngine
 {
@@ -35,8 +35,20 @@ public class MappingEngine
         return result;
     }
 
-    public bool AddMarker(double lat, double log, Color color)
+    public bool AddMarker(double lat, double log, int color, string label, string address)
     {
+        Pin newPin = new Pin();
+        newPin.Type = PinType.Place;
+        newPin.Position = new Position(lat, log);
+        newPin.Label = label;
+        newPin.Address = address;
+
+        // Preform null check
+        if (localMap != null)
+        {
+            //Color pinColor = new Color(color);
+            localMap.Pins.Add(newPin);
+        }
         return true;
     }
 

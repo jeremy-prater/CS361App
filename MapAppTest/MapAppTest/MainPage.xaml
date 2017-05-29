@@ -5,10 +5,16 @@
              xmlns:local="clr-namespace:MapAppTest"
              x:Class="MapAppTest.MainPage">
 
-    <StackLayout VerticalOptions="StartAndExpand" Padding="30">
-            <maps:Map WidthRequest="320" HeightRequest="500"
+    <StackLayout VerticalOptions="StartAndExpand" Padding="0">
+        <SearchBar
+            x:Name="TrailSearch"/>
+        <maps:Map HeightRequest="350"
             x:Name="MyMap"
             IsShowingUser="true"
             MapType="Hybrid" />
-        </StackLayout>
-    </ContentPage>
+        
+        <Label Text="Top Left" />
+        <Label Text="Top Right" />
+        <Label Text="Middle Left" />
+    </StackLayout>
+</ContentPage>
