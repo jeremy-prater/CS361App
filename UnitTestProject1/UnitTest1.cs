@@ -4,6 +4,7 @@ using MapAppTest.Droid;
 using MapAppTest;
 using Xamarin.Forms.Maps;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace UnitTestProject1
 {
@@ -40,5 +41,21 @@ namespace UnitTestProject1
 
             Assert.IsTrue(result);
         }
+        [TestMethod]
+        public void TestDatabaseConnection()
+        {
+            // Create a new database object
+            TrailDatabaseLibrary.TrailDatabaseLibrary newLibrary = new TrailDatabaseLibrary.TrailDatabaseLibrary();
+
+            // Connect/create the database
+            Task<string> result = newLibrary.CreateConnectionAsync();
+
+            // Wait for the results
+            result.Wait();
+
+            // Check assert
+            Assert.AreEqual(result.Result, "success");
+        }
+
     }
 }
