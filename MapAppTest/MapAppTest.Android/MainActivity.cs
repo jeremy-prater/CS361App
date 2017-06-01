@@ -28,7 +28,7 @@ namespace MapAppTest.Droid
             LoadApplication(new MapAppTest.App());
 
             // Application Init Section
-            MappingEngine mappingEngine = new MappingEngine(MainPage.GetMap());
+            MappingEngine mappingEngine = new MappingEngine(MapPage.GetMap());
 
             // Local program setup.
             mappingEngine.SetMapLocation(21.353063, -158.132459, .8);
