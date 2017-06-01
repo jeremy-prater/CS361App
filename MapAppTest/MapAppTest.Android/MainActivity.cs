@@ -64,7 +64,7 @@ namespace MapAppTest.Droid
             latD = locMgr.GetLastKnownLocation(locationProvider).Latitude;
             longD = locMgr.GetLastKnownLocation(locationProvider).Longitude;
             mappingEngine.SetMapLocation(latD, longD, .8);
-            mappingEngine.AddMarker(latD, -longD, 0x00303080, "Sample Pin", "123 Street");
+            mappingEngine.AddMarker(latD, longD, 0x00303080, "Sample Pin", "123 Street");
             
         }
 
