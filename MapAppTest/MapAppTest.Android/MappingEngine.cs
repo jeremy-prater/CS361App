@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms.Maps;
 using Android.Graphics;
+using Android.Locations;
 
 public class MappingEngine
 {
@@ -17,14 +18,14 @@ public class MappingEngine
         localMap = newMap;
     }
 
-    public MapSpan SetMapLocation(double lat, double log, double radius)
+    public MapSpan SetMapLocation(Location location, double radius)
     {
-        currentLat = lat;
-        currentLong = log;
+        currentLat = location.Latitude;
+        currentLong = location.Longitude;
         currentRadius = radius;
 
         MapSpan result = MapSpan.FromCenterAndRadius(
-               new Position(lat, log),
+               new Position(location.Latitude, location.Longitude),
                Distance.FromMiles(radius));
 
         // Preform null check
@@ -35,11 +36,11 @@ public class MappingEngine
         return result;
     }
 
-    public bool AddMarker(double lat, double log, int color, string label, string address)
+    public bool AddMarker(Location location, int color, string label, string address)
     {
         Pin newPin = new Pin();
         newPin.Type = PinType.Place;
-        newPin.Position = new Position(lat, log);
+        newPin.Position = new Position(location.Latitude, location.Longitude);
         newPin.Label = label;
         newPin.Address = address;
 
