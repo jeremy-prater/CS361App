@@ -10,6 +10,8 @@ using Xamarin.Forms.Maps;
 using Android.Locations;
 using Android.Content;
 using Android.Util;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MapAppTest.Droid
 {
@@ -17,6 +19,7 @@ namespace MapAppTest.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         LocationManager locMgr;
+        Location location;
         private string tag;
         //TextView latitude;
         //TextView longitude;
@@ -24,24 +27,6 @@ namespace MapAppTest.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
-            //Initialize location manager
-            locMgr = GetSystemService(Context.LocationService) as LocationManager;
-
-            // Get Best Location Provider
-            Criteria locationCriteria = new Criteria();
-
-            locationCriteria.Accuracy = Accuracy.Coarse;
-            locationCriteria.PowerRequirement = Power.Medium;
-
-            locationProvider = locMgr.GetBestProvider(locationCriteria, true);
-            if (locationProvider != null)
-            {
-                //locMgr.RequestLocationUpdates(locationProvider, 2000, 1, this);
-            }
-            else
-            {
-                Log.Info(tag, "No location providers available");
-            }
 
             // UI Stuff
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -59,13 +44,46 @@ namespace MapAppTest.Droid
             MappingEngine mappingEngine = new MappingEngine(MainPage.GetMap());
 
             // Get device location and set map starting point to that location.
+            InitializeLocationManager();
             double latD;
             double longD;
-            latD = locMgr.GetLastKnownLocation(locationProvider).Latitude;
-            longD = locMgr.GetLastKnownLocation(locationProvider).Longitude;
+            IList<String> providers = locMgr.GetProviders(true);
+           
+            latD = location.Latitude;
+            longD = location.Longitude;
             mappingEngine.SetMapLocation(latD, longD, .8);
             mappingEngine.AddMarker(latD, longD, 0x00303080, "Sample Pin", "123 Street");
             
+        }
+
+        void InitializeLocationManager()
+        {
+            locMgr = (LocationManager)GetSystemService(LocationService);
+
+            Criteria locationCriteria = new Criteria;
+            
+            locationCriteria.Accuracy = Accuracy.Coarse;
+            locationCriteria.PowerRequirement = Power.Medium;
+            locationProvider = locMgr.GetBestProvider(locationCriteria, true);
+            IList<string> acceptableLocationProviders = locMgr.GetProviders(locationCriteria, true);
+
+            if (acceptableLocationProviders.Any())
+            {
+                locationProvider = acceptableLocationProviders.First();
+            }
+            else
+            {
+                locationProvider = string.Empty;
+            }
+            Log.Debug(tag, "Using " + locationProvider + ".");
+        }
+
+
+       
+        protected override void OnResume()
+        {
+            base.OnResume();
+            locMgr.RequestLocationUpdates(locationProvider, 0, 0, this);
         }
 
         //protected override void OnResume()
