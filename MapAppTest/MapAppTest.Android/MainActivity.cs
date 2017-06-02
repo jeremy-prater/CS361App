@@ -60,10 +60,10 @@ namespace MapAppTest.Droid
         {
             locMgr = (LocationManager)GetSystemService(LocationService);
 
-            Criteria locationCriteria = new Criteria;
+            Criteria locationCriteria = new Criteria
+            { Accuracy = Accuracy.Coarse,
+                PowerRequirement = Power.Medium};
             
-            locationCriteria.Accuracy = Accuracy.Coarse;
-            locationCriteria.PowerRequirement = Power.Medium;
             locationProvider = locMgr.GetBestProvider(locationCriteria, true);
             IList<string> acceptableLocationProviders = locMgr.GetProviders(locationCriteria, true);
 
