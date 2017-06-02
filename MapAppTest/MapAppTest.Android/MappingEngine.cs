@@ -1,4 +1,6 @@
 ﻿using Xamarin.Forms.Maps;
+using Android.Graphics;
+using Android.Locations;
 
 public class MappingEngine
 {
@@ -16,14 +18,14 @@ public class MappingEngine
         localMap = newMap;
     }
 
-    public MapSpan SetMapLocation(double lat, double log, double radius)
+    public MapSpan SetMapLocation(Location location, double radius)
     {
-        currentLat = lat;
-        currentLong = log;
+        currentLat = location.Latitude;
+        currentLong = location.Longitude;
         currentRadius = radius;
 
         MapSpan result = MapSpan.FromCenterAndRadius(
-               new Position(lat, log),
+               new Position(location.Latitude, location.Longitude),
                Distance.FromMiles(radius));
 
         // Preform null check
@@ -32,6 +34,23 @@ public class MappingEngine
             localMap.MoveToRegion(result);
         }
         return result;
+    }
+
+    public bool AddMarker(Location location, int color, string label, string address)
+    {
+        Pin newPin = new Pin();
+        newPin.Type = PinType.Place;
+        newPin.Position = new Position(location.Latitude, location.Longitude);
+        newPin.Label = label;
+        newPin.Address = address;
+
+        // Preform null check
+        if (localMap != null)
+        {
+            //Color pinColor = new Color(color);
+            localMap.Pins.Add(newPin);
+        }
+        return true;
     }
 
     public double GetLatitudeDegrees()

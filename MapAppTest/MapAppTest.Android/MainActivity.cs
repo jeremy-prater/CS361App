@@ -7,14 +7,23 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Xamarin.Forms.Maps;
+using Android.Locations;
+using Android.Content;
+using Android.Util;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MapAppTest.Droid
 {
     [Activity(Label = "MapAppTest", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public MappingEngine mappingEngine = null;
+        public TrailLocationManager locationManager = null;
+
         protected override void OnCreate(Bundle bundle)
         {
+
             // UI Stuff
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -28,10 +37,10 @@ namespace MapAppTest.Droid
             LoadApplication(new MapAppTest.App());
 
             // Application Init Section
-            MappingEngine mappingEngine = new MappingEngine(MainPage.GetMap());
+            mappingEngine = new MappingEngine(MainPage.GetMap());
+            locationManager = new TrailLocationManager(this);
 
-            // Local program setup.
-            mappingEngine.SetMapLocation(21.353063, -158.132459, .8);
+            // More Init code...
         }
     }
 }
