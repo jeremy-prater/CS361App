@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:local="clr-namespace:MapAppTest"
              x:Class="MapAppTest.MainPage">
-
+  <!--Pages can be added as references or inline-->
+  <local:MapPage Title="Map">
     <StackLayout VerticalOptions="StartAndExpand" Padding="0">
         <SearchBar
             x:Name="TrailSearch"/>
@@ -17,4 +17,6 @@
         <Label Text="Top Right" />
         <Label Text="Middle Left" />
     </StackLayout>
-</ContentPage>
+  </local:MapPage>
+  <local:ChatPage Title="Chat" />
+</TabbedPage>
