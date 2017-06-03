@@ -18,14 +18,14 @@ public class MappingEngine
         localMap = newMap;
     }
 
-    public MapSpan SetMapLocation(Location location, double radius)
+    public MapSpan SetMapLocation(double newLat, double newLong, double radius)
     {
-        currentLat = location.Latitude;
-        currentLong = location.Longitude;
+        currentLat = newLat;
+        currentLong = newLong;
         currentRadius = radius;
 
         MapSpan result = MapSpan.FromCenterAndRadius(
-               new Position(location.Latitude, location.Longitude),
+               new Position(currentLat, currentLong),
                Distance.FromMiles(radius));
 
         // Preform null check
@@ -36,11 +36,20 @@ public class MappingEngine
         return result;
     }
 
-    public bool AddMarker(Location location, int color, string label, string address)
+    public void ClearMarkers()
+    {
+        // Preform null check
+        if (localMap != null)
+        {
+            localMap.Pins.Clear();
+        }
+    }
+
+    public bool AddMarker(double markerLat, double markerLong, int color, string label, string address)
     {
         Pin newPin = new Pin();
         newPin.Type = PinType.Place;
-        newPin.Position = new Position(location.Latitude, location.Longitude);
+        newPin.Position = new Position(markerLat, markerLong);
         newPin.Label = label;
         newPin.Address = address;
 

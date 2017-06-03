@@ -1,85 +1,64 @@
-﻿using SQLite;
+﻿using Android.Util;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using unirest_net.http;
 using Xamarin.Forms;
 
-namespace TrailDatabaseLibrary
+namespace MapAppTest.Droid
 {
-    public class TrailDatabase__Trail
+    public class TrailData
     {
-        [PrimaryKey, AutoIncrement]
-        public int trailID { get; set; }
+        public string name;
+        public string city;
+        public string state;
+        public string country;
+        public string directions;
+        public string description;
+        public double lat;
+        public double lon;
+    };
 
-        public string trailName { get; set; }
+    public class TrailPlaces
+    {
+        public TrailData[] places;
 
-        public string trailAddress { get; set; }
-
-        public override string ToString()
+        public int GetNumberOfTrails()
         {
-            return string.Format("[Trail: ID={0}, trailName={1}, trailAddress={2}]", trailID, trailName, trailAddress);
+            if (places != null)
+                return places.Length;
+            else
+                return 0;
         }
     }
-
     public class TrailDatabaseLibrary
     {
-        private const string localDBPath = "trailsdb.sqlite";
-        private SQLiteAsyncConnection dbConn;
+        //MainActivity context;
+        const string Debug_Tag = "TrailDB";
 
-        public async Task<string> CreateConnectionAsync()
+        public TrailDatabaseLibrary (object parent)
         {
-            return await createDatabaseAsync();
+            //context = parent;
         }
-
-        public async Task<string> AddTrailAsync(TrailDatabase__Trail newTrail)
+        public TrailPlaces GetTrailsByLocation(double locLat, double locLong, double radius)
         {
-            try
-            {
-                if (await dbConn.InsertAsync(newTrail) != 0)
-                {
-                    Debug.WriteLine("<<WARNING>> Trail {0} already exist! Updating existing trail data.", newTrail.trailID);
-                    await dbConn.UpdateAsync(newTrail);
-                }
-                return "success";
-            }
-            catch (SQLiteException ex)
-            {
-                return ex.Message;
-            }
-        }
+            string requestAPI = "https://trailapi-trailapi.p.mashape.com/?lat=" +
+                locLat.ToString() +
+                "&limit=50&lon=" +
+                locLong.ToString() +
+                "&radius=" +
+                radius.ToString();
+            HttpResponse<string> response = Unirest.get(requestAPI)
+            .header("X-Mashape-Key", "AWH2MCAi96mshwBrZ3fyOc8qhUhRp1scsoNjsnMLietLmi8SMd")
+            .header("Accept", "text/plain")
+            .asString();
 
-        public async Task<string> GetAllTrailsAsync()
-        {
-            try
-            {
-                List<TrailDatabase__Trail> trailData = await dbConn.QueryAsync<TrailDatabase__Trail>("Select * FROM TrailDatabase__Trail", null);
-                return "success";
-            }
-            catch (SQLiteException ex)
-            {
-                return ex.Message;
-            }
-
-        }
-
-        private async Task<string> createDatabaseAsync()
-        {
-            try
-            {
-                dbConn = new SQLiteAsyncConnection(localDBPath);
-                {
-                    await dbConn.CreateTableAsync<TrailDatabase__Trail>();
-                    return "success";
-                }
-            }
-
-            catch (SQLiteException ex)
-            {
-                return ex.Message;
-            }
+            TrailPlaces trailData = JsonConvert.DeserializeObject<TrailPlaces>(response.Body);
+            return trailData;
         }
     }
 }

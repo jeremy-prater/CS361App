@@ -1,10 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MapAppTest.Droid;
-using MapAppTest;
-using Xamarin.Forms.Maps;
-using System.Drawing;
-using System.Threading.Tasks;
 
 namespace UnitTestProject1
 {
@@ -19,7 +14,6 @@ namespace UnitTestProject1
             double testRadius = 1;
 
             MappingEngine newEngine = new MappingEngine(null);
-
             newEngine.SetMapLocation(testLat, testLong, testRadius);
 
             Assert.AreEqual(newEngine.GetRadius(), testRadius);
@@ -45,16 +39,14 @@ namespace UnitTestProject1
         public void TestDatabaseConnection()
         {
             // Create a new database object
-            TrailDatabaseLibrary.TrailDatabaseLibrary newLibrary = new TrailDatabaseLibrary.TrailDatabaseLibrary();
+            TrailDatabaseLibrary newLibrary = new TrailDatabaseLibrary(null);
 
             // Connect/create the database
-            Task<string> result = newLibrary.CreateConnectionAsync();
-
-            // Wait for the results
-            result.Wait();
+            TrailPlaces newPlaces = newLibrary.GetTrailsByLocation(45.650239, -122, 1);
 
             // Check assert
-            Assert.AreEqual(result.Result, "success");
+            Assert.IsTrue(newPlaces.GetNumberOfTrails() > 0);
+            Assert.AreEqual(newPlaces.places[0].name, "Beacon Rock State Park");
         }
 
     }

@@ -65,12 +65,8 @@ namespace MapAppTest.Droid
         public void OnLocationChanged(Location location)
         {
             currentLocation = location;
-            parent.mappingEngine.SetMapLocation(GetLocation(), .8);
-
-            // This should be funny when there are 500 markers on the map!
-            parent.mappingEngine.AddMarker(GetLocation(), 0x00303080, "Sample Pin", "123 Street");
-
             Log.Debug(Debug_Tag, "Updating Position [" + location.Latitude + "," + location.Longitude + "]");
+            parent.UpdatedLocation();
         }
 
         public Location GetLocation()
@@ -86,17 +82,18 @@ namespace MapAppTest.Droid
 
         public void OnProviderDisabled(string provider)
         {
-            throw new NotImplementedException();
+            Log.Debug(Debug_Tag, "Provider Disabled! [" + provider + "]");
         }
 
         public void OnProviderEnabled(string provider)
         {
-            throw new NotImplementedException();
+            Log.Debug(Debug_Tag, "Provider Enabled! [" + provider + "]");
         }
 
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
         {
-            throw new NotImplementedException();
+            Log.Debug(Debug_Tag, "Provider Status Changed! [" + provider + "]->[" + status.ToString() + "]");
+
         }
     }
 }

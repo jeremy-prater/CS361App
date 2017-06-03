@@ -20,6 +20,7 @@ namespace MapAppTest.Droid
     {
         public MappingEngine mappingEngine = null;
         public TrailLocationManager locationManager = null;
+        public TrailDatabaseLibrary databaseManager = null;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -39,8 +40,22 @@ namespace MapAppTest.Droid
             // Application Init Section
             mappingEngine = new MappingEngine(MainPage.GetMap());
             locationManager = new TrailLocationManager(this);
+            databaseManager = new TrailDatabaseLibrary(this);
 
             // More Init code...
+        }
+
+        public void UpdatedLocation()
+        {
+            Location curLocation = locationManager.GetLocation();
+            mappingEngine.SetMapLocation(curLocation.Latitude, curLocation.Longitude, .8);
+
+            TrailPlaces currentPlaces = databaseManager.GetTrailsByLocation(curLocation.Latitude, curLocation.Longitude, .8);
+            mappingEngine.ClearMarkers();
+            foreach (TrailData curTrail in currentPlaces.places)
+            {
+                mappingEngine.AddMarker(curTrail.lat, curTrail.lon, 0x00303080, curTrail.name, curTrail.city);
+            }
         }
     }
 }
