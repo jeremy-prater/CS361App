@@ -4,6 +4,19 @@
              xmlns:local="clr-namespace:MapAppTest"
              x:Class="MapAppTest.MainPage">
   <!--Pages can be added as references or inline-->
-  <local:MapPage Title="Map" />
+  <local:MapPage Title="Map">
+    <StackLayout VerticalOptions="StartAndExpand" Padding="0">
+        <SearchBar
+            x:Name="TrailSearch"/>
+        <maps:Map HeightRequest="350"
+            x:Name="MyMap"
+            IsShowingUser="true"
+            MapType="Hybrid" />
+        
+        <Label Text="Top Left" />
+        <Label Text="Top Right" />
+        <Label Text="Middle Left" />
+    </StackLayout>
+  </local:MapPage>
   <local:ChatPage Title="Chat" />
 </TabbedPage>
