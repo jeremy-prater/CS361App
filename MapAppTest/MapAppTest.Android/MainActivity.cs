@@ -38,7 +38,7 @@ namespace MapAppTest.Droid
             LoadApplication(new MapAppTest.App());
 
             // Application Init Section
-            mappingEngine = new MappingEngine(MainPage.GetMap());
+            mappingEngine = new MappingEngine(MapPage.GetMap());
             locationManager = new TrailLocationManager(this);
             databaseManager = new TrailDatabaseLibrary(this);
 

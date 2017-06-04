@@ -2,78 +2,81 @@
 using Android.Graphics;
 using Android.Locations;
 
-public class MappingEngine
+namespace MapAppTest.Droid
 {
-    double currentLat;
-    double currentLong;
-    double currentRadius;
-
-    Map localMap = null;
-
-    public MappingEngine (Map newMap)
+    public class MappingEngine
     {
-        // Oh no... I made it a singleton.
-        // Please use mutexes or other blocking calls
-        // to access critical map data.
-        localMap = newMap;
-    }
+        double currentLat;
+        double currentLong;
+        double currentRadius;
 
-    public MapSpan SetMapLocation(double newLat, double newLong, double radius)
-    {
-        currentLat = newLat;
-        currentLong = newLong;
-        currentRadius = radius;
+        Map localMap = null;
 
-        MapSpan result = MapSpan.FromCenterAndRadius(
-               new Position(currentLat, currentLong),
-               Distance.FromMiles(radius));
-
-        // Preform null check
-        if (localMap != null)
+        public MappingEngine(Map newMap)
         {
-            localMap.MoveToRegion(result);
+            // Oh no... I made it a singleton.
+            // Please use mutexes or other blocking calls
+            // to access critical map data.
+            localMap = newMap;
         }
-        return result;
-    }
 
-    public void ClearMarkers()
-    {
-        // Preform null check
-        if (localMap != null)
+        public MapSpan SetMapLocation(double newLat, double newLong, double radius)
         {
-            localMap.Pins.Clear();
+            currentLat = newLat;
+            currentLong = newLong;
+            currentRadius = radius;
+
+            MapSpan result = MapSpan.FromCenterAndRadius(
+                   new Position(currentLat, currentLong),
+                   Distance.FromMiles(radius));
+
+            // Preform null check
+            if (localMap != null)
+            {
+                localMap.MoveToRegion(result);
+            }
+            return result;
         }
-    }
 
-    public bool AddMarker(double markerLat, double markerLong, int color, string label, string address)
-    {
-        Pin newPin = new Pin();
-        newPin.Type = PinType.Place;
-        newPin.Position = new Position(markerLat, markerLong);
-        newPin.Label = label;
-        newPin.Address = address;
-
-        // Preform null check
-        if (localMap != null)
+        public void ClearMarkers()
         {
-            //Color pinColor = new Color(color);
-            localMap.Pins.Add(newPin);
+            // Preform null check
+            if (localMap != null)
+            {
+                localMap.Pins.Clear();
+            }
         }
-        return true;
-    }
 
-    public double GetLatitudeDegrees()
-    {
-        return currentLat;
-    }
+        public bool AddMarker(double markerLat, double markerLong, int color, string label, string address)
+        {
+            Pin newPin = new Pin();
+            newPin.Type = PinType.Place;
+            newPin.Position = new Position(markerLat, markerLong);
+            newPin.Label = label;
+            newPin.Address = address;
 
-    public double GetLongitudeDegrees()
-    {
-        return currentLong;
-    }
+            // Preform null check
+            if (localMap != null)
+            {
+                //Color pinColor = new Color(color);
+                localMap.Pins.Add(newPin);
+            }
+            return true;
+        }
 
-    public double GetRadius()
-    {
-        return currentRadius;
+        public double GetLatitudeDegrees()
+        {
+            return currentLat;
+        }
+
+        public double GetLongitudeDegrees()
+        {
+            return currentLong;
+        }
+
+        public double GetRadius()
+        {
+            return currentRadius;
+        }
     }
 }
