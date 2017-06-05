@@ -22,6 +22,9 @@ namespace MapAppTest.Droid
         public TrailLocationManager locationManager = null;
         public TrailDatabaseLibrary databaseManager = null;
 
+        public TrailPlaces currentPlaces;
+        public TrailPlaces searchPlaces;
+
         protected override void OnCreate(Bundle bundle)
         {
 
@@ -43,14 +46,23 @@ namespace MapAppTest.Droid
             databaseManager = new TrailDatabaseLibrary(this);
 
             // More Init code...
+            currentPlaces = null;
+            searchPlaces = null;
         }
 
         public void UpdatedLocation()
         {
             Location curLocation = locationManager.GetLocation();
-            mappingEngine.SetMapLocation(curLocation.Latitude, curLocation.Longitude, .8);
+            double radius = mappingEngine.GetRadius();
+            mappingEngine.SetMapLocation(curLocation.Latitude, curLocation.Longitude, radius);
 
-            TrailPlaces currentPlaces = databaseManager.GetTrailsByLocation(curLocation.Latitude, curLocation.Longitude, .8);
+            currentPlaces = databaseManager.GetTrailsByLocation(curLocation.Latitude, curLocation.Longitude, radius);
+            searchPlaces = databaseManager.GetTrailsByLocation(curLocation.Latitude, curLocation.Longitude, radius * 10);
+
+            // Refactor this into a differential update where the following actions occur:
+            // An array of items is created where A = items on map and B = items in DB
+            // Remove all items from map where A is not in B
+            // Add items to map where B is not in A
             mappingEngine.ClearMarkers();
             foreach (TrailData curTrail in currentPlaces.places)
             {

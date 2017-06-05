@@ -5,7 +5,11 @@
              x:Class="MapAppTest.MapPage">
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand" Padding="0">
-            <maps:Map HeightRequest="500"
+            <Entry
+                Placeholder="Search Trails"
+                PlaceholderColor="LightGray"
+                x:Name="TrailRequest" />
+            <maps:Map HeightRequest="450"
             x:Name="MyMap"
             IsShowingUser="true"
             MapType="Hybrid" />

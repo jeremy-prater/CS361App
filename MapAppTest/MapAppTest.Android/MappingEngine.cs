@@ -15,9 +15,12 @@ namespace MapAppTest.Droid
         public MappingEngine(Map newMap)
         {
             // Oh no... I made it a singleton.
-            // Please use mutexes or other blocking calls
+            // Please use mutexes/locks or other blocking calls
             // to access critical map data.
             localMap = newMap;
+
+            // Set default radius to 1
+            currentRadius = 1;
         }
 
         public MapSpan SetMapLocation(double newLat, double newLong, double radius)
