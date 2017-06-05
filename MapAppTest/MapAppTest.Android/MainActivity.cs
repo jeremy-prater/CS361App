@@ -50,14 +50,19 @@ namespace MapAppTest.Droid
             searchPlaces = null;
         }
 
-        public void UpdatedLocation()
+        public void UpdatedLocation(bool forceMap)
         {
-            Location curLocation = locationManager.GetLocation();
+            double lat = mappingEngine.GetLatitudeDegrees();
+            double lon = mappingEngine.GetLongitudeDegrees();
             double radius = mappingEngine.GetRadius();
-            mappingEngine.SetMapLocation(curLocation.Latitude, curLocation.Longitude, radius);
 
-            currentPlaces = databaseManager.GetTrailsByLocation(curLocation.Latitude, curLocation.Longitude, radius);
-            searchPlaces = databaseManager.GetTrailsByLocation(curLocation.Latitude, curLocation.Longitude, radius * 10);
+            if (forceMap)
+            {
+                mappingEngine.SetMapLocation(lat, lon, radius);
+            }
+
+            currentPlaces = databaseManager.GetTrailsByLocation(lat, lon, radius);
+            searchPlaces = databaseManager.GetTrailsByLocation(lat, lon, radius * 10);
 
             // Refactor this into a differential update where the following actions occur:
             // An array of items is created where A = items on map and B = items in DB

@@ -66,7 +66,8 @@ namespace MapAppTest.Droid
         {
             currentLocation = location;
             Log.Debug(Debug_Tag, "Updating Position [" + location.Latitude + "," + location.Longitude + "]");
-            parent.UpdatedLocation();
+            parent.mappingEngine.SetMapLocation(location.Latitude, location.Longitude, parent.mappingEngine.GetRadius());
+            parent.UpdatedLocation(true);
         }
 
         public Location GetLocation()

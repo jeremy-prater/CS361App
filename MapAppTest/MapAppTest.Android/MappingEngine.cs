@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms.Maps;
 using Android.Graphics;
 using Android.Locations;
+using Android.Util;
 
 namespace MapAppTest.Droid
 {
@@ -11,6 +12,7 @@ namespace MapAppTest.Droid
         double currentRadius;
 
         Map localMap = null;
+        const string Debug_Tag = "MappingEngine";
 
         public MappingEngine(Map newMap)
         {
@@ -21,6 +23,29 @@ namespace MapAppTest.Droid
 
             // Set default radius to 1
             currentRadius = 1;
+
+            // Setup mapping event hooks
+            if (localMap != null)
+            {
+                localMap.PropertyChanged += LocalMap_PropertyChanged;
+            }
+        }
+
+        private void LocalMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Log.Debug(Debug_Tag, "Map Property Changed: [" + e.PropertyName + "]->[" + e.ToString() + "]");
+            if (e.PropertyName.CompareTo("VisibleRegion") == 0)
+            {
+                SynchronizeMapLocation(localMap.VisibleRegion.LatitudeDegrees, localMap.VisibleRegion.LongitudeDegrees, localMap.VisibleRegion.Radius.Kilometers);
+                //parent.UpdatedLocation(false);
+            }
+        }
+
+        public void SynchronizeMapLocation(double newLat, double newLong, double radius)
+        {
+            currentLat = newLat;
+            currentLong = newLong;
+            currentRadius = radius;
         }
 
         public MapSpan SetMapLocation(double newLat, double newLong, double radius)
