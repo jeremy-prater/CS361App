@@ -2,6 +2,7 @@
 using Android.Graphics;
 using Android.Locations;
 using Android.Util;
+using System;
 
 namespace MapAppTest.Droid
 {
@@ -36,16 +37,8 @@ namespace MapAppTest.Droid
             Log.Debug(Debug_Tag, "Map Property Changed: [" + e.PropertyName + "]->[" + e.ToString() + "]");
             if (e.PropertyName.CompareTo("VisibleRegion") == 0)
             {
-                SynchronizeMapLocation(localMap.VisibleRegion.LatitudeDegrees, localMap.VisibleRegion.LongitudeDegrees, localMap.VisibleRegion.Radius.Kilometers);
-                //parent.UpdatedLocation(false);
+                MainActivity.GetContext().UpdateSearchData(new LocationChangedEvent(localMap.VisibleRegion.Center.Latitude, localMap.VisibleRegion.Center.Longitude, localMap.VisibleRegion.Radius.Kilometers));
             }
-        }
-
-        public void SynchronizeMapLocation(double newLat, double newLong, double radius)
-        {
-            currentLat = newLat;
-            currentLong = newLong;
-            currentRadius = radius;
         }
 
         public MapSpan SetMapLocation(double newLat, double newLong, double radius)

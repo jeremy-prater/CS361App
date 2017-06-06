@@ -18,6 +18,8 @@ namespace MapAppTest.Droid
     [Activity(Label = "MapAppTest", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        const string Debug_Tag = "MainActivity";
+        static MainActivity context = null;
         public MappingEngine mappingEngine = null;
         public TrailLocationManager locationManager = null;
         public TrailDatabaseLibrary databaseManager = null;
@@ -27,6 +29,8 @@ namespace MapAppTest.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
+            // Initalize the MainActivity singleton
+            context = this;
 
             // UI Stuff
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -50,19 +54,16 @@ namespace MapAppTest.Droid
             searchPlaces = null;
         }
 
-        public void UpdatedLocation(bool forceMap)
+        public static MainActivity GetContext()
         {
-            double lat = mappingEngine.GetLatitudeDegrees();
-            double lon = mappingEngine.GetLongitudeDegrees();
-            double radius = mappingEngine.GetRadius();
+            return context;
+        }
 
-            if (forceMap)
-            {
-                mappingEngine.SetMapLocation(lat, lon, radius);
-            }
-
-            currentPlaces = databaseManager.GetTrailsByLocation(lat, lon, radius);
-            searchPlaces = databaseManager.GetTrailsByLocation(lat, lon, radius * 10);
+        public void UpdateSearchData(LocationChangedEvent newLocation)
+        {
+            currentPlaces = databaseManager.GetTrailsByLocation(newLocation.latitude, newLocation.longtitude, newLocation.radius);
+            searchPlaces = databaseManager.GetTrailsByLocation(newLocation.latitude, newLocation.longtitude, newLocation.radius * 10);
+            Log.Debug(Debug_Tag, "Updating search data. Visible:[" + currentPlaces.places.Length + "] Area:[" + searchPlaces.places.Length + "]");
 
             // Refactor this into a differential update where the following actions occur:
             // An array of items is created where A = items on map and B = items in DB
