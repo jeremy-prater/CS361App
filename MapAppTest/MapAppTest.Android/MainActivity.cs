@@ -75,6 +75,30 @@ namespace MapAppTest.Droid
                 mappingEngine.AddMarker(curTrail.lat, curTrail.lon, 0x00303080, curTrail.name, curTrail.city);
             }
         }
+
+        public void ShowTrailInfo(string label)
+        {
+            // Find the trail from the database.
+            TrailData matchedTrail = null;
+            foreach (TrailData curTrail in currentPlaces.places)
+            {
+                if (curTrail.name.Equals(label))
+                {
+                    matchedTrail = curTrail;
+                    break;
+                }
+            }
+
+            if (matchedTrail == null)
+            {
+                return;
+            }
+
+            Log.Debug(Debug_Tag, "Matched Trail [" + matchedTrail.name + "]");
+            // Generate navigation page
+
+            // Push page into stack!
+        }
     }
 }
 

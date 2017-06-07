@@ -70,19 +70,27 @@ namespace MapAppTest.Droid
 
         public bool AddMarker(double markerLat, double markerLong, int color, string label, string address)
         {
-            Pin newPin = new Pin();
-            newPin.Type = PinType.Place;
-            newPin.Position = new Position(markerLat, markerLong);
-            newPin.Label = label;
-            newPin.Address = address;
-
             // Preform null check
             if (localMap != null)
             {
+                Pin newPin = new Pin();
+                newPin.Type = PinType.Place;
+                newPin.Position = new Position(markerLat, markerLong);
+                newPin.Label = label;
+                newPin.Address = "Tap here for more info...";
+
+                newPin.Clicked += TrailClicked;
                 //Color pinColor = new Color(color);
                 localMap.Pins.Add(newPin);
             }
             return true;
+        }
+
+        private void TrailClicked(object sender, EventArgs e)
+        {
+            Pin trail = sender as Pin;
+            Log.Debug(Debug_Tag, "Trail was clicked! [" + trail.Label + "]");
+            MainActivity.GetContext().ShowTrailInfo(trail.Label);
         }
 
         public double GetLatitudeDegrees()
