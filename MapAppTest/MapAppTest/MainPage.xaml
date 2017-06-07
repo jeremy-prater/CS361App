@@ -5,5 +5,6 @@
              x:Class="MapAppTest.MainPage">
   <!--Pages can be added as references or inline-->
   <local:MapPage Title="Map" />
-  <local:ChatPage Title="Chat" />
+    <local:WeatherPage Title="Weather" />
+    <local:ChatPage Title="Chat" />
 </TabbedPage>
