@@ -3901,6 +3901,9 @@ namespace MapAppTest.Droid
 			// aapt resource value: 0x7f080038
 			public const int abc_toolbar_collapse_description = 2131230776;
 			
+			// aapt resource value: 0x7f080050
+			public const int app_name = 2131230800;
+			
 			// aapt resource value: 0x7f080047
 			public const int appbar_scrolling_view_behavior = 2131230791;
 			
@@ -3960,6 +3963,9 @@ namespace MapAppTest.Droid
 			
 			// aapt resource value: 0x7f080010
 			public const int common_signin_button_text_long = 2131230736;
+			
+			// aapt resource value: 0x7f08004f
+			public const int hello = 2131230799;
 			
 			// aapt resource value: 0x7f080011
 			public const int mr_button_content_description = 2131230737;
