@@ -1,9 +1,37 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MapAppTest.TrailViewer">
-  <ContentView.Content>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MapAppTest.TrailViewer">
+    <StackLayout>
+        <Button 
+            x:Name="back"
+            Clicked="back_Clicked"
+            Text="... back"/>
         <Label
-          x:Name="trailName"
-          Text="My new trail!"
-          />
-    </ContentView.Content>
-</ContentView>
+            x:Name="trailName"
+            Text="Trail Name"
+            FontSize="Large"
+            HorizontalTextAlignment="Center"/>
+        <Label
+            x:Name="location"
+            Text="Trail Locaion"
+            HorizontalOptions="Center"
+            FontSize="Large"/>
+        <Label
+            x:Name="description"
+            Text="Trail info..."
+            Margin="20"/>
+        <Label
+            x:Name="activities"
+            Text="Activities : Hiking"
+            Margin="20"/>
+        <Label
+            x:Name="currentTemp"
+            Text="Current Temp : 0"
+            Margin="20"/>
+        <Label
+            x:Name="currentRain"
+            Text="Current Rainfall : 0"
+            Margin="20"/>
+    </StackLayout>
+</ContentPage>

@@ -12,6 +12,8 @@ using Android.Content;
 using Android.Util;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace MapAppTest.Droid
 {
@@ -95,9 +97,13 @@ namespace MapAppTest.Droid
             }
 
             Log.Debug(Debug_Tag, "Matched Trail [" + matchedTrail.name + "]");
-            // Generate navigation page
+
+            // Generate and Setup trail info on the new object
+            TrailViewer trailViewer = new TrailViewer();
+            trailViewer.SetTrailData(matchedTrail);
 
             // Push page into stack!
+            MainPage.GetCurrentContext().Navigation.PushModalAsync(trailViewer);
         }
     }
 }
