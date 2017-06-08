@@ -66,7 +66,9 @@ namespace MapAppTest.Droid
         {
             currentLocation = location;
             Log.Debug(Debug_Tag, "Updating Position [" + location.Latitude + "," + location.Longitude + "]");
-            parent.UpdatedLocation();
+
+            double radius = MainActivity.GetContext().mappingEngine.GetRadius();
+            MainActivity.GetContext().mappingEngine.SetMapLocation(location.Latitude, location.Longitude, radius);
         }
 
         public Location GetLocation()
@@ -95,5 +97,18 @@ namespace MapAppTest.Droid
             Log.Debug(Debug_Tag, "Provider Status Changed! [" + provider + "]->[" + status.ToString() + "]");
 
         }
+    }
+    public class LocationChangedEvent
+    {
+        public LocationChangedEvent(double lat, double lon, double rad)
+        {
+            latitude = lat;
+            longtitude = lon;
+            radius = rad;
+        }
+
+        public double latitude { get; }
+        public double longtitude { get; }
+        public double radius { get; }
     }
 }
