@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:MapAppTest"
              x:Class="MapAppTest.MainPage">
   <!--Pages can be added as references or inline-->
-    <local:MapPage Title="Map" />
+  <local:MapPage Title="Map" />
+    <local:WeatherPage Title="Weather" />
     <local:ChatPage Title="Chat" />
 </TabbedPage>
