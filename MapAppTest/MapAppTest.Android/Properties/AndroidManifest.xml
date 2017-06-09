@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="15" />
+	<uses-sdk android:targetSdkVersion="25" android:minSdkVersion="25" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
@@ -9,6 +9,6 @@
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<application android:label="MapAppTest.Android">
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCaVN8wq0tAs6AMPEPVV59Bipi_8YbJMDk"/>
-  </application>
+		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCaVN8wq0tAs6AMPEPVV59Bipi_8YbJMDk" />
+	</application>
 </manifest>
