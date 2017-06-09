@@ -1,5 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MapAppTest.Droid;
+using MapAppTest;
+using Xamarin.Forms.Maps;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace UnitTestProject1
 {
@@ -14,6 +19,7 @@ namespace UnitTestProject1
             double testRadius = 1;
 
             MappingEngine newEngine = new MappingEngine(null);
+
             newEngine.SetMapLocation(testLat, testLong, testRadius);
 
             Assert.AreEqual(newEngine.GetRadius(), testRadius);
@@ -21,33 +27,31 @@ namespace UnitTestProject1
             Assert.AreEqual(newEngine.GetLongitudeDegrees(), testLong);
             //Assert.IsTrue(false); // Test assert
         }
+
         [TestMethod]
-        public void TestMapAddPin()
+        public async Task TestWeatherRetrieval()
         {
-            double testLat = 0;
-            double testLong = 0;
-            int testColor = 0x00FFFFFF;
-            string testLabel = "testLabel";
-            string testAddress = "123 Street";
+            // Grab weather for Hillcrest, San Diego :)
+            Weather currentWeather = await Core.GetCurrentWeather(32.7497888, -117.1676501);
+            Assert.IsNotNull(currentWeather);
 
-            MappingEngine newEngine = new MappingEngine(null);
-            bool result = newEngine.AddMarker(testLat, testLong, testColor, testLabel, testAddress);
+            // Debug to verify we get back data
+            //Console.WriteLine(currentWeather.Title);
+            //Console.WriteLine(currentWeather.Temperature);
+            //Console.WriteLine(currentWeather.Wind);
+            //Console.WriteLine(currentWeather.Humidity);
+            //Console.WriteLine(currentWeather.Visibility);
+        } // TestWeatherRetrieval()
 
-            Assert.IsTrue(result);
-        }
         [TestMethod]
-        public void TestDatabaseConnection()
+        public async Task TestWeatherReturnTitle()
         {
-            // Create a new database object
-            TrailDatabaseLibrary newLibrary = new TrailDatabaseLibrary(null);
-
-            // Connect/create the database
-            TrailPlaces newPlaces = newLibrary.GetTrailsByLocation(45.650239, -122, 1);
-
-            // Check assert
-            Assert.IsTrue(newPlaces.GetNumberOfTrails() > 0);
-            Assert.AreEqual(newPlaces.places[0].name, "Beacon Rock State Park");
+            // Testing to make sure we are getting data for San Diego, CA
+            Weather currentWeather = await Core.GetCurrentWeather(32.7497888, -117.1676501);
+            // Testing to make sure we are getting data for San Diego, CA
+            Assert.AreEqual(currentWeather.Title, "San Diego, CA");
         }
 
-    }
-}
+        //TODO: Add unit tests for the rest of the data points JL 6/8/2017
+    } // UnitTest1
+} // UnitTestProject1
