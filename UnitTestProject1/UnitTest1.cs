@@ -50,8 +50,18 @@ namespace UnitTestProject1
             Weather currentWeather = await Core.GetCurrentWeather(32.7497888, -117.1676501);
             // Testing to make sure we are getting data for San Diego, CA
             Assert.AreEqual(currentWeather.Title, "San Diego, CA");
-        }
+        } // TestWeatherReturnTitle()
 
-        //TODO: Add unit tests for the rest of the data points JL 6/8/2017
+        [TestMethod]
+        public async Task TestWeatherReturnData()
+        {
+            // Set up data retrieval
+            Weather currentWeather = await Core.GetCurrentWeather(32.7497888, -117.1676501);
+            Assert.IsNotNull(currentWeather.Title);
+            Assert.IsNotNull(currentWeather.Temperature);
+            Assert.IsNotNull(currentWeather.Wind);
+            Assert.IsNotNull(currentWeather.Humidity);
+            Assert.IsNotNull(currentWeather.Visibility);
+        } // Test WeatherReturnData()
     } // UnitTest1
 } // UnitTestProject1
