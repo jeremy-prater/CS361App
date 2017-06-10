@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MapAppTest.Droid;
+using System.Threading.Tasks;
 
 namespace UnitTestProject1
 {
@@ -48,6 +49,51 @@ namespace UnitTestProject1
             Assert.IsTrue(newPlaces.GetNumberOfTrails() > 0);
             Assert.AreEqual(newPlaces.places[0].name, "Beacon Rock State Park");
         }
+
+        [TestMethod]
+        public void TestWeatherRetrieval()
+        {
+            // Grab weather for Hillcrest, San Diego :)
+            Task<Weather> currentWeatherTask = WeatherCore.GetCurrentWeather(32.7497888, -117.1676501);
+            currentWeatherTask.Wait();
+            Weather currentWeather = currentWeatherTask.Result;
+            Assert.IsNotNull(currentWeather);
+
+            // Debug to verify we get back data
+            //Console.WriteLine(currentWeather.Title);
+            //Console.WriteLine(currentWeather.Temperature);
+            //Console.WriteLine(currentWeather.Wind);
+            //Console.WriteLine(currentWeather.Humidity);
+            //Console.WriteLine(currentWeather.Visibility);
+        } // TestWeatherRetrieval()
+
+        [TestMethod]
+        public void TestWeatherReturnTitle()
+        {
+            // Testing to make sure we are getting data for San Diego, CA
+            Task<Weather> currentWeatherTask = WeatherCore.GetCurrentWeather(32.7497888, -117.1676501);
+            currentWeatherTask.Wait();
+            Weather currentWeather = currentWeatherTask.Result;
+            Assert.IsNotNull(currentWeather);
+            // Testing to make sure we are getting data for San Diego, CA
+            Assert.AreEqual(currentWeather.Title, "San Diego, CA");
+        } // TestWeatherReturnTitle()
+
+        [TestMethod]
+        public void TestWeatherReturnData()
+        {
+            // Set up data retrieval
+            Task<Weather> currentWeatherTask = WeatherCore.GetCurrentWeather(32.7497888, -117.1676501);
+            currentWeatherTask.Wait();
+            Weather currentWeather = currentWeatherTask.Result;
+            Assert.IsNotNull(currentWeather);
+
+            Assert.IsNotNull(currentWeather.Title);
+            Assert.IsNotNull(currentWeather.Temperature);
+            Assert.IsNotNull(currentWeather.Wind);
+            Assert.IsNotNull(currentWeather.Humidity);
+            Assert.IsNotNull(currentWeather.Visibility);
+        } // Test WeatherReturnData()
 
     }
 }
