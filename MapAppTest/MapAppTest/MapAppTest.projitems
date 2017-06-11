@@ -55,9 +55,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)WeatherPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)WeatherPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

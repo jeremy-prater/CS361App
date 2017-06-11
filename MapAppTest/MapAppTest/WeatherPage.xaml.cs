@@ -15,6 +15,8 @@ namespace MapAppTest
 	{
 		public WeatherPage ()
 		{
+            InitializeComponent();
+
             LoadData();
 		}
 
